@@ -1,0 +1,21 @@
+{
+  "name": "comp4711-video-chat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://ericwu1997@bitbucket.org/ericwu1997/comp4711-video-chat.git"
+  },
+  "author": "Eric",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/ericwu1997/comp4711-video-chat#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4"
+  }
+}
