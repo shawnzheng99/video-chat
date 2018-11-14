@@ -5,6 +5,8 @@ const api_router = express.Router();
 const room_router = express.Router();
 const app_name = "<NAME>"
 
+app.set('view engine', 'ejs');
+
 // API routing
 api_router.get('/generatelink', (req, res) => {
     let roomid = Math.random()
@@ -19,13 +21,15 @@ api_router.get('/testing1', (req, res) => {
         message: 'Sample GET request'
     });
 });
-room_router.use(express.static('public'));
+room_router.get('/', (req, res) => {
+    res.render('pages/index');
+});
 
-// Handle request
+room_router.use(express.static('views/partials/scripts'));
+
 app.use('/api', api_router);
 app.use('/chatroom', room_router)
 
-// open port
 app.listen(port, () => {
     console.info('listening on %d', port);
 });
