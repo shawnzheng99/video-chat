@@ -2,10 +2,7 @@ const port = process.env.PORT || 8080;
 const express = require('express');
 const app = express();
 const api_router = express.Router();
-const room_router = express.Router();
 const app_name = "<NAME>"
-
-app.set('view engine', 'ejs');
 
 // API routing
 api_router.get('/generatelink', (req, res) => {
@@ -13,7 +10,7 @@ api_router.get('/generatelink', (req, res) => {
         .toString(36)
         .slice(2) + Date.now()
     res.json({
-        url: 'localhost:8080/chatroom?roomid=' + roomid
+        url: 'https://comp4711-video-chat.herokuapp.com/chatroom?roomid=' + roomid
     });
 });
 api_router.get('/testing1', (req, res) => {
@@ -22,19 +19,19 @@ api_router.get('/testing1', (req, res) => {
     });
 });
 
-// chatroom routing
-room_router.get('/', (req, res) => {
+app.set('view engine', 'ejs');
+
+app.use('/chatroom', express.static(__dirname + '/public'));
+
+app.use('/api', api_router);
+
+app.get('/chatroom', (req, res) => {
     if (req.query.roomid) {
         res.render('pages/index');
     } else {
         res.render('pages/error');
     }
 });
-room_router.use(express.static('public'));
-
-// app use
-app.use('/api', api_router);
-app.use('/chatroom', room_router)
 
 app.listen(port, () => {
     console.info('listening on %d', port);

@@ -58,7 +58,7 @@ class Model {
 
                 let stream_config = {
                     streamID: uid,
-                    audio: true,
+                    audio: false,
                     cameraId: this._videoSource,
                     microphoneId: this._audioSource,
                     video: true,
@@ -66,7 +66,7 @@ class Model {
                 }
 
                 this._localStream = AgoraRTC.createStream(stream_config);
-                this._localStream.setVideoProfile('720p_3');
+                this._localStream.setVideoProfile('720P_3');
 
                 // The user has granted access to the camera and mic.
                 this._localStream.on("accessAllowed", () => {
@@ -76,14 +76,14 @@ class Model {
                 this._localStream.on("accessDenied", () => {
                     console.log("accessDenied");
                 });
-
+    
                 this._localStream.init(() => {
                     // console.log("getUserMedia successfully");
                     this._localStream.play('agora_local');
-                    this._client.publish(this._localStream, function (err) {
+                    this._client.publish(this._localStream, err => {
                         console.log("Publish local stream error: " + err);
                     });
-                    this._client.on('stream-published', function (evt) {
+                    this._client.on('stream-published', evt => {
                         console.log("Publish local stream successfully");
                     });
                 }, (err) => {
@@ -120,7 +120,7 @@ class Model {
             var stream = evt.stream;
             console.log("Subscribe remote stream successfully: " + stream.getId());
             if ($('div#video #agora_remote' + stream.getId()).length === 0) {
-                $('div#video').append('<div id="agora_remote' + stream.getId() + '" class="remote_video"></div>');
+                $('div#video').append('<div id="agora_remote' + stream.getId() + '" class="video_div"></div>');
             }
             stream.play('agora_remote' + stream.getId());
         });
