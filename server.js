@@ -21,12 +21,18 @@ api_router.get('/testing1', (req, res) => {
         message: 'Sample GET request'
     });
 });
+
+// chatroom routing
 room_router.get('/', (req, res) => {
-    res.render('pages/index');
+    if (req.query.roomid) {
+        res.render('pages/index');
+    } else {
+        res.render('pages/error');
+    }
 });
+room_router.use(express.static('public'));
 
-room_router.use(express.static('views/partials/scripts'));
-
+// app use
 app.use('/api', api_router);
 app.use('/chatroom', room_router)
 

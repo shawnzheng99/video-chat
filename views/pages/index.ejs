@@ -2,13 +2,15 @@
 <html>
 
 <head>
-    <title>Agora Web Sample</title>
-    <% include ../partials/ejs/head %>
+    <meta charset="UTF-8">
+    <title>Video Chat</title>
+    <% include ../partials/ejs/css %>
+    <% include ../partials/ejs/cdn %>
 </head>
 
 <body>
-    <div id="video" style="margin:0 auto;">
-        <div id="agora_local" style="float:right;width:210px;height:147px;display:inline-block;"></div>
+    <div id="video">
+        <div id="agora_local" class="local_video"></div>
     </div>
     <% include ../partials/ejs/scripts %>
 </body>
