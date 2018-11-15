@@ -2,13 +2,13 @@ const port = process.env.PORT || 8080;
 const express = require('express');
 const app = express();
 const api_router = express.Router();
-const app_name = "<NAME>"
+const app_name = "<NAME>";
 
 // API routing
 api_router.get('/generatelink', (req, res) => {
     let roomid = Math.random()
         .toString(36)
-        .slice(2) + Date.now()
+        .slice(2) + Date.now();
     res.json({
         url: 'https://comp4711-video-chat.herokuapp.com/chatroom?roomid=' + roomid
     });
