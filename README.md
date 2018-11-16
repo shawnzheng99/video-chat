@@ -1,6 +1,6 @@
 # COMP4711 Video Chat
 
-Sample video chat project, pm me on slack for comments and suggestion
+Sample video chat project
 
 ### Tech used
 ```sh

@@ -7,8 +7,11 @@ class Model {
         this._localStream = null;
         this._channel_key = null;
         this._client = null;
+        this._streamCount = 1;
+        this._columnCount = 1;
     }
 
+    // Check if browser support WebRTC
     checkSystemRequirements() {
         return new Promise((resolve, reject) => {
             if (!AgoraRTC.checkSystemRequirements()) {
@@ -19,6 +22,7 @@ class Model {
         });
     }
 
+    // Get avaliable device (microphone, camera)
     setDevice() {
         AgoraRTC.getDevices(devices => {
             for (var i = 0; i !== devices.length; ++i) {
@@ -35,6 +39,7 @@ class Model {
         });
     }
 
+    // Extract roomid and username from URL
     extractUrlParam(url) {
         return new Promise((resolve, reject) => {
             let roomid = url.searchParams.get("roomid");
@@ -50,6 +55,7 @@ class Model {
         });
     }
 
+    // Set up client agora client
     initializeClient(roomid, username) {
         this._client = AgoraRTC.createClient({ mode: 'live' });
         this._client.init(APP_ID, () => {
@@ -76,9 +82,11 @@ class Model {
                 this._localStream.on("accessDenied", () => {
                     console.log("accessDenied");
                 });
-    
+
                 this._localStream.init(() => {
                     // console.log("getUserMedia successfully");
+                    $('div#video')
+                        .append(this.createVideoElement("agora_local"));
                     this._localStream.play('agora_local');
                     this._client.publish(this._localStream, err => {
                         console.log("Publish local stream error: " + err);
@@ -97,6 +105,7 @@ class Model {
         });
     }
 
+    // Client side "on" listeners
     setUpStreamSubscription() {
         let channelKey = "";
         this._client.on('error', err => {
@@ -120,7 +129,10 @@ class Model {
             var stream = evt.stream;
             console.log("Subscribe remote stream successfully: " + stream.getId());
             if ($('div#video #agora_remote' + stream.getId()).length === 0) {
-                $('div#video').append('<div id="agora_remote' + stream.getId() + '" class="video_div"></div>');
+                $('div#video')
+                    .append(this.createVideoElement("agora_remote" + stream.getId()));
+                this._streamCount++;
+                this.revalidateHeight();
             }
             stream.play('agora_remote' + stream.getId());
         });
@@ -129,6 +141,8 @@ class Model {
             stream.stop();
             $('#agora_remote' + stream.getId()).remove();
             console.log("Remote stream is removed " + stream.getId());
+            this._streamCount--;
+            this.revalidateHeight();
         });
         this._client.on('peer-leave', evt => {
             var stream = evt.stream;
@@ -136,7 +150,32 @@ class Model {
                 stream.stop();
                 $('#agora_remote' + stream.getId()).remove();
                 console.log(evt.uid + " leaved from this channel");
+                this._streamCount--;
+                this.revalidateHeight();
             }
         });
+    }
+
+    // Generate video element with class "video_div"
+    createVideoElement(id) {
+        let div = document.createElement('div');
+        div.setAttribute('id', id);
+        div.setAttribute('class', 'video_div');
+        return div;
+    }
+
+    // Revalidate video onscreen scale
+    revalidateHeight() {
+        let calculated_col = Math.ceil(this._streamCount / 4);
+        let col = this._columnCount;
+        console.log("col: " + col + ", calculated_col: " + calculated_col);
+        if (calculated_col != col) {
+            this._columnCount = calculated_col;
+            let i = 0;
+            var divs = document.getElementsByClassName('video_div');
+            for (i = 0; i < divs.length; i++) {
+                divs[i].style.height = '' + (100 / calculated_col - 2) + '%';
+            }
+        }
     }
 }
