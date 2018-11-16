@@ -1,4 +1,4 @@
-const APP_ID = 'd2b36791e0c342cab25481bcb70ae1e9';
+const APP_ID = '';
 
 class Model {
     constructor() {
