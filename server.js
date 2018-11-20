@@ -20,7 +20,7 @@ api_router.post('/generatelink', (req, res) => {
         .toString(36)
         .slice(2) + Date.now();
         res.json({
-            url: 'https://comp4711-video-chat.herokuapp.com/chatroom?roomid=' + roomid,
+            url: 'https://videochat-4711.herokuapp.com/chatroom?roomid=' + roomid,
             nameOfUser: username
         });       
     }else{
@@ -36,7 +36,7 @@ api_router.post('/test', (req, res) => {
     let name = 'moren';
     name = req.body.username;
     res.json({
-        message: 'Sample GET request',
+        message: 'Sample POST request',
         name: name
     });
 });
