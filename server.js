@@ -5,7 +5,7 @@ const api_router = express.Router();
 let bodyParser = require('body-parser');
 const config = require('./config');
 const app_name = "<NAME>";
-
+let username = 'mo ren';
 
 app.use(bodyParser.urlencoded({
     extended: true
@@ -14,13 +14,16 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 // API routing
 api_router.post('/generatelink', (req, res) => {
+    username = req.body.username;
     if(req.headers['token'] === config.video_token){
         let roomid = Math.random()
         .toString(36)
         .slice(2) + Date.now();
     res.json({
-        url: 'https://comp4711-video-chat.herokuapp.com/chatroom?roomid=' + roomid
+        url: 'https://comp4711-video-chat.herokuapp.com/chatroom?roomid=' + roomid,
+        nameOfUser: username
     });       
+
     }else{
         res.json(
             {
@@ -28,9 +31,12 @@ api_router.post('/generatelink', (req, res) => {
             });
     }
 });
-api_router.get('/testing1', (req, res) => {
+api_router.post('/test', (req, res) => {
+    let name = 'moren';
+    name = req.body.username;
     res.json({
-        message: 'Sample GET request'
+        message: 'Sample GET request',
+        name: name
     });
 });
 
