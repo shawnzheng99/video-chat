@@ -1,5 +1,6 @@
 const port = process.env.PORT || 8080;
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const api_router = express.Router();
 let bodyParser = require('body-parser');
@@ -8,9 +9,7 @@ const app_name = "<NAME>";
 let username = 'mo ren';
 
 // allow CORS req.
-app.use(allowCrossDomain);
-
-//var cors = require('cors'); app.use(cors());
+app.use(cors);
 
 app.use(bodyParser.urlencoded({
     extended: true
