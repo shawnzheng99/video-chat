@@ -1,6 +1,6 @@
 const port = process.env.PORT || 8080;
 const express = require('express');
-const cors = require('cors');
+//const cors = require('cors');
 const app = express();
 const api_router = express.Router();
 let bodyParser = require('body-parser');
@@ -10,6 +10,12 @@ let username = 'mo ren';
 
 // allow CORS req.
 //app.use(cors);
+
+app.all('*', function(req,res,next){
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    next();
+});
 
 app.use(bodyParser.urlencoded({
     extended: true
