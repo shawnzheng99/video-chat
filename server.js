@@ -19,10 +19,11 @@ api_router.post('/generatelink', (req, res) => {
         let roomid = Math.random()
         .toString(36)
         .slice(2) + Date.now();
-        res.json({
-            url: 'https://videochat-4711.herokuapp.com/chatroom?roomid=' + roomid,
-            nameOfUser: username
-        });       
+    res.json({
+        url: 'https://videochat-4711.herokuapp.com/chatroom?roomid=' + roomid,
+        nameOfUser: username
+    });       
+
     }else{
         res.json(
             {
@@ -31,7 +32,9 @@ api_router.post('/generatelink', (req, res) => {
     }
 });
 
+
 // testing route
+
 api_router.post('/test', (req, res) => {
     let name = 'moren';
     name = req.body.username;

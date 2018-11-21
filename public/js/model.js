@@ -1,4 +1,4 @@
-const APP_ID = '';
+const APP_ID = 'd2b36791e0c342cab25481bcb70ae1e9';
 
 class Model {
     constructor() {
@@ -155,6 +155,7 @@ class Model {
             }
         });
     }
+
 
     // Generate video element with class "video_div"
     createVideoElement(id) {
