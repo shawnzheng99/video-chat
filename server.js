@@ -9,7 +9,7 @@ const app_name = "<NAME>";
 let username = 'mo ren';
 
 // allow CORS req.
-app.use(cors);
+//app.use(cors);
 
 app.use(bodyParser.urlencoded({
     extended: true
