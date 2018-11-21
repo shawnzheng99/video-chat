@@ -12,9 +12,9 @@ let username = 'mo ren';
 //app.use(cors);
 
 app.all('*', function(req,res,next){
-    res.header("Access-Control-Allow-Origin", "*");
+    res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-    res.header("Access-Control-Allow-Headers", "token");
+    res.header('Access-Control-Allow-Headers', 'token');
     next();
 });
 
@@ -30,16 +30,14 @@ api_router.post('/generatelink', (req, res) => {
         let roomid = Math.random()
         .toString(36)
         .slice(2) + Date.now();
-    res.json({
-        url: 'https://videochat-4711.herokuapp.com/chatroom?roomid=' + roomid,
-        nameOfUser: username
-    });       
-
+        res.json({
+            url: 'https://videochat-4711.herokuapp.com/chatroom?roomid=' + roomid,
+            nameOfUser: username
+        });       
     }else{
-        res.json(
-            {
-                error: 'Access Denied, No Token Found'
-            });
+        res.json({
+            error: 'Access Denied, No Token Found'
+        });
     }
 });
 
