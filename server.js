@@ -4,6 +4,7 @@ const { generateMediaChannelKey } = require('./src/DynamicKey5')
 const ts = Math.floor(new Date() / 1000);
 const r = Math.floor(Math.random() * 0xFFFFFFFF);
 const expiredTs = 0;
+const bodyParser = require('body-parser');
 
 const firebase = require('firebase');
 const database = firebase.initializeApp({
@@ -20,6 +21,10 @@ const appCertificate = process.env.APP_CERTIFICATE;
 
 const express = require('express');
 const app = express()
+
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 
 app.get('/channelKey', (req, res) => {
     res.header('Access-Control-Allow-Origin', "*");
