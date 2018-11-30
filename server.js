@@ -62,6 +62,7 @@ app.post('/generateLink', (req, res) => {
             nameOfUser: username
         });
     }else{
+        res.header('Access-Control-Allow-Origin', "*");
         res.json({
             error: 'Access Denied, No Token Found'
         });
