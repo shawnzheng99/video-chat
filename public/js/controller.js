@@ -15,8 +15,10 @@ Controller.prototype._actions = {
             .then(() => {
                 model.setDevice();
                 return model.extractUrlParam(new URL(window.location.href));
-            }).then(({ roomid, username }) => {
-                model.initializeClient(roomid, username);
+            }).then(channel => {
+                return model.requestChannelKey(channel);
+            }).then(() => {
+                model.initializeClient();
                 model.setUpStreamSubscription();
             }).catch(err => {
                 console.log("Error: " + err);

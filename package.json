@@ -1,5 +1,5 @@
 {
-  "name": "video-chat-token-generator",
+  "name": "comp4711-video-chat",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -7,12 +7,21 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://ericwu1997@bitbucket.org/ericwu1997/comp4711-video-chat.git"
+  },
+  "author": "Eric",
   "license": "ISC",
+  "homepage": "https://bitbucket.org/ericwu1997/comp4711-video-chat#readme",
   "dependencies": {
-    "crc-32": "^1.2.0",
-    "cuint": "^0.2.2",
-    "express": "^4.16.4",
-    "firebase": "^5.5.9"
+    "body-parser": "^1.18.3",
+    "compression": "^1.7.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4"
+  },
+  "engines": {
+    "node": "10.13.0",
+    "npm": "6.4.1"
   }
 }

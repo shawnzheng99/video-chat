@@ -1,4 +1,5 @@
-const APP_ID = 'd2b36791e0c342cab25481bcb70ae1e9';
+const APP_ID = config.APP_ID;
+const KEY_PROVIDER_DOMAIN = config.KEY_PROVIDER_DOMAIN;
 
 class Model {
     constructor() {
@@ -6,12 +7,13 @@ class Model {
         this._videoSource = null;
         this._localStream = null;
         this._channel_key = null;
+        this._channel = null;
+        this._uid = null;
         this._client = null;
         this._streamCount = 1;
         this._columnCount = 1;
     }
 
-    // Check if browser support WebRTC
     checkSystemRequirements() {
         return new Promise((resolve, reject) => {
             if (!AgoraRTC.checkSystemRequirements()) {
@@ -22,7 +24,28 @@ class Model {
         });
     }
 
-    // Get avaliable device (microphone, camera)
+    requestChannelKey(channel) {
+        this._channel = channel;
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                type: "GET",
+                url: "https://" + KEY_PROVIDER_DOMAIN + "/channelKey?channel=" + channel,
+                success: (obj) => {
+                    console.log(JSON.stringify(obj));
+                    this._channel_key = obj.channelKey;
+                    this._uid = obj.uid;
+                    if (!this._channel_key) {
+                        reject(obj.Error)
+                    }
+                    resolve();
+                },
+                error: (err) => {
+                    reject(err);
+                }
+            });
+        });
+    }
+
     setDevice() {
         AgoraRTC.getDevices(devices => {
             for (var i = 0; i !== devices.length; ++i) {
@@ -39,29 +62,22 @@ class Model {
         });
     }
 
-    // Extract roomid and username from URL
     extractUrlParam(url) {
         return new Promise((resolve, reject) => {
-            let roomid = url.searchParams.get("roomid");
-            let name = url.searchParams.get("username");
-            if (roomid) {
-                resolve({
-                    roomid: roomid,
-                    username: name
-                });
+            let channel = url.searchParams.get('channel');
+            if (channel) {
+                resolve(channel);
             } else {
                 reject("Room id required");
             }
         });
     }
 
-    // Set up client agora client
-    initializeClient(roomid, username) {
+    initializeClient() {
         this._client = AgoraRTC.createClient({ mode: 'live' });
         this._client.init(APP_ID, () => {
             console.log("AgoraRTC client initialized");
-            this._client.join(this._channel_key, roomid, null, uid => {
-
+            this._client.join(this._channel_key, this._channel, this._uid, uid => {
                 let stream_config = {
                     streamID: uid,
                     audio: false,
@@ -105,7 +121,6 @@ class Model {
         });
     }
 
-    // Client side "on" listeners
     setUpStreamSubscription() {
         let channelKey = "";
         this._client.on('error', err => {
@@ -156,8 +171,6 @@ class Model {
         });
     }
 
-
-    // Generate video element with class "video_div"
     createVideoElement(id) {
         let div = document.createElement('div');
         div.setAttribute('id', id);
@@ -165,7 +178,6 @@ class Model {
         return div;
     }
 
-    // Revalidate video onscreen scale
     revalidateHeight() {
         let calculated_col = Math.ceil(this._streamCount / 4);
         let col = this._columnCount;
