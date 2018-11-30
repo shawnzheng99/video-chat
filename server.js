@@ -48,7 +48,7 @@ app.get('/channelKey', (req, res) => {
                 if (childSnapshot.key == channel) {
                     resolve();
                 }else{
-                    res.send(404);
+                    res.status(404);
                 };
             });
         })
