@@ -1,36 +1,10 @@
-# COMP4711 Video Chat
+## Dynamic Key Server
 
-Sample video chat project
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/ericwu1997/video-chat/tree/DynamicKeyGenerator-server)
 
-### Tech used
+## Simply click the deploy button above, and filled out specified credential for firebase database and agora project
+## Avaliable API includes:
 ```sh
-1. express
-2. ejs
-3. nodejs
-4. Agora
-5. heroku (deployment)
-6. socketio
+1. /channelKey?channel[channelId]
+2. /generateLink
 ```
-
-### Installation
-
-This app requires [Node.js](https://nodejs.org/) and [Npm.js](https://www.npmjs.com/get-npm) to run.
-
-Install the dependencies and devDependencies and start the server.
-
-```sh
-1. $ npm install
-2. go to model.js under public/js
-3. replace <APP_ID> with app id you got 
-```
-
-For production environments...
-
-```sh
-coming soon...
-```
-
-### Development
-
-For most of the time, you will be working on css and js under public folder
-

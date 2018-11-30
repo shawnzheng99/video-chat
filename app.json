@@ -1,0 +1,39 @@
+{
+    "name": "DynamicKeyServer",
+    "description": "Dynamic Key Server",
+    "repository": "https://github.com/ericwu1997/video-chat/tree/DynamicKeyGenerator-server",
+    "env": {
+        "APP_ID": {
+            "description": "Agora.io App ID: Login to the Agora.io Developer Dashboard (http://dashboard.agora.io), and navigate to the \"Projects\" tab to get this value",
+            "required": true
+        },
+        "APP_CERTIFICATE": {
+            "description": "Agora.io App Certificate: Login to the Agora.io Developer Dashboard (http://dashboard.agora.io), and navigate to the \"Projects\" tab to get this value",
+            "required": true
+        },
+        "API_KEY": {
+            "description": "firebase api key",
+            "required": true
+        },
+        "AUTH_DOMAIN": {
+            "description": "firebase auth domain",
+            "required": true
+        },
+        "DATABASE_URL": {
+            "description": "firebase api key",
+            "required": true
+        },
+        "PROJECT_ID": {
+            "description": "firebase project id",
+            "required": true
+        },
+        "STORAGE_BUCKET": {
+            "description": "firebase storage bucket",
+            "required": true
+        },
+        "MESSAGING_SENDER_ID": {
+            "description": "firebase messaging sender id",
+            "required": true
+        }
+    }
+}

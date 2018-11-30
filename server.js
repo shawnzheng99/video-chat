@@ -1,39 +1,66 @@
 const port = process.env.PORT || 8080;
-const express = require('express');
-//const cors = require('cors');
-const app = express();
-const api_router = express.Router();
-let bodyParser = require('body-parser');
 const config = require('./config');
-const app_name = "<NAME>";
-let username = 'mo ren';
+const { generateMediaChannelKey } = require('./src/DynamicKey5')
+const ts = Math.floor(new Date() / 1000);
+const r = Math.floor(Math.random() * 0xFFFFFFFF);
+const expiredTs = 0;
 
-// allow CORS req.
-//app.use(cors);
-
-app.all('*', function(req,res,next){
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'token');
-    next();
+const firebase = require('firebase');
+const database = firebase.initializeApp({
+    apiKey: process.env.API_KEY,
+    authDomain: process.env.AUTH_DOMAIN,
+    databaseURL: process.env.DATABASE_URL,
+    projectId: process.env.PROJECT_ID,
+    storageBucket: process.env.STORAGE_BUCKET,
+    messagingSenderId: process.env.MESSAGING_SENDER_ID
 });
 
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
+const appID = process.env.APP_ID;
+const appCertificate = process.env.APP_CERTIFICATE;
 
-app.use(bodyParser.json());
-// API routing
-api_router.post('/generatelink', (req, res) => {
+const express = require('express');
+const app = express()
+
+app.get('/channelKey', (req, res) => {
+    res.header('Access-Control-Allow-Origin', "*");
+    let channel = req.query.channel;
+    new Promise((resolve, reject) => {
+        if (!channel) reject("request channel not specified");
+        database.database().ref('/').once('value', snapshot => {
+            snapshot.forEach(childSnapshot => {
+                if (childSnapshot.key == channel) {
+                    resolve();
+                };
+            });
+            reject("The requested channel doesnt exist");
+        })
+    }).then(() => {
+        let uid = randomFixedInteger(9);
+        let key = generateMediaChannelKey(appID, appCertificate, channel, ts, r, uid, expiredTs);
+        res.json({
+            channelKey: key,
+            uid: uid
+        });
+    }).catch(err => {
+        res.json({
+            Error: err
+        });
+    });
+});
+
+app.get('/generateLink', (req, res) => {
+    // expect token from main app used to verify user
+    //let token = req.query.accessToken;
+    //let channel = decode(token).channel
     username = req.body.username;
     if(req.headers['token'] === config.video_token){
-        let roomid = Math.random()
-        .toString(36)
-        .slice(2) + Date.now();
+        res.header('Access-Control-Allow-Origin', "*");
+        let channel = '1000';
+        database.database().ref('/' + channel).set('SAMPLE_HOST_ID');
         res.json({
-            url: 'https://videochat-4711.herokuapp.com/chatroom?roomid=' + roomid,
+            url: 'https://comp4711-video-chat.herokuapp.com?channel=' + channel,
             nameOfUser: username
-        });       
+        });
     }else{
         res.json({
             error: 'Access Denied, No Token Found'
@@ -41,32 +68,10 @@ api_router.post('/generatelink', (req, res) => {
     }
 });
 
-
-// testing route
-
-api_router.post('/test', (req, res) => {
-    let name = 'moren';
-    name = req.body.username;
-    res.json({
-        message: 'Sample POST request',
-        name: name
-    });
-});
-
-app.set('view engine', 'ejs');
-
-app.use('/chatroom', express.static(__dirname + '/public'));
-
-app.use('/api', api_router);
-
-app.get('/chatroom', (req, res) => {
-    if (req.query.roomid) {
-        res.render('pages/index');
-    } else {
-        res.render('pages/error');
-    }
-});
-
 app.listen(port, () => {
     console.info('listening on %d', port);
 });
+
+const randomFixedInteger = function (length) {
+    return Math.floor(Math.pow(10, length - 1) + Math.random() * (Math.pow(10, length) - Math.pow(10, length - 1) - 1));
+}
