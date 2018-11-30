@@ -52,7 +52,7 @@ app.post('/generateLink', (req, res) => {
     // expect token from main app used to verify user
     //let token = req.query.accessToken;
     //let channel = decode(token).channel
-    username = req.body.username;
+    let username = req.body.username;
     if(req.headers['token'] === config.video_token){
         res.header('Access-Control-Allow-Origin', "*");
         let channel = '1000';
