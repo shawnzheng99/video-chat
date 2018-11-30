@@ -1,9 +1,11 @@
 const port = process.env.PORT || 8080;
 const config = require('./config');
+const bodyParser = require('body-parser');
 const { generateMediaChannelKey } = require('./src/DynamicKey5')
 const ts = Math.floor(new Date() / 1000);
 const r = Math.floor(Math.random() * 0xFFFFFFFF);
 const expiredTs = 0;
+
 
 const firebase = require('firebase');
 const database = firebase.initializeApp({
@@ -18,7 +20,7 @@ const database = firebase.initializeApp({
 const appID = process.env.APP_ID;
 const appCertificate = process.env.APP_CERTIFICATE;
 const express = require('express');
-const app = express()
+const app = express();
 
 app.use(bodyParser.urlencoded({
     extended: true
