@@ -67,13 +67,13 @@ app.post('/generateLink', (req, res) => {
     // expect token from main app used to verify user
     //let token = req.query.accessToken;
     //let channel = decode(token).channel
-    let username = req.body.username;
+    //let username = req.body.username;
     if(req.headers['token'] === config.video_token){
         let channel = '1000';
         database.database().ref('/' + channel).set('SAMPLE_HOST_ID');
         res.json({
-            url: 'https://videochat-4711.herokuapp.com/?channel=' + channel,
-            nameOfUser: username
+            url: 'https://videochat-4711.herokuapp.com/?channel=' + channel
+            //nameOfUser: username
         });
     }else{
         res.json({
