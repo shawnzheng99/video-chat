@@ -48,7 +48,7 @@ app.get('/channelKey', (req, res) => {
     });
 });
 
-app.get('/generateLink', (req, res) => {
+app.post('/generateLink', (req, res) => {
     // expect token from main app used to verify user
     //let token = req.query.accessToken;
     //let channel = decode(token).channel
