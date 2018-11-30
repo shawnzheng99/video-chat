@@ -41,15 +41,16 @@ app.get('/channelKey', (req, res) => {
     let channel = req.query.channel;
     new Promise((resolve, reject) => {
         if (!channel) {
-            reject("request channel not specified");
+            res.redirect('https://rankup.pro/Login.html');
         }
         database.database().ref('/').once('value', snapshot => {
             snapshot.forEach(childSnapshot => {
                 if (childSnapshot.key == channel) {
                     resolve();
+                }else{
+                    res.redirect('https://rankup.pro/Login.html');
                 };
             });
-            reject("The requested channel doesnt exist");
         })
     }).then(() => {
         let uid = randomFixedInteger(9);
