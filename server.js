@@ -17,9 +17,22 @@ const database = firebase.initializeApp({
 
 const appID = process.env.APP_ID;
 const appCertificate = process.env.APP_CERTIFICATE;
-
 const express = require('express');
 const app = express()
+
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+
+app.use(bodyParser.json());
+
+app.all('*', function(req,res,next){
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'token');
+    next();
+});
+
 
 app.get('/channelKey', (req, res) => {
     res.header('Access-Control-Allow-Origin', "*");
@@ -49,17 +62,16 @@ app.get('/channelKey', (req, res) => {
 });
 
 app.post('/generateLink', (req, res) => {
-    res.header('Access-Control-Allow-Origin', "*");
     // expect token from main app used to verify user
     //let token = req.query.accessToken;
     //let channel = decode(token).channel
-    //let username = req.body.username;
+    let username = req.body.username;
     if(req.headers['token'] === config.video_token){
         let channel = '1000';
         database.database().ref('/' + channel).set('SAMPLE_HOST_ID');
         res.json({
             url: 'https://videochat-4711.herokuapp.com/?channel=' + channel,
-      //      nameOfUser: username
+            nameOfUser: username
         });
     }else{
         res.json({
