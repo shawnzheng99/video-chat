@@ -48,7 +48,7 @@ app.get('/channelKey', (req, res) => {
                 if (childSnapshot.key == channel) {
                     resolve();
                 }else{
-                    res.redirect('https://rankup.pro/Login.html');
+                    res.send(404);
                 };
             });
         })
