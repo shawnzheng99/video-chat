@@ -48,6 +48,7 @@ app.get('/channelKey', (req, res) => {
                 };
             });
             reject("The requested channel doesnt exist");
+            res.redirect('https://rankup.pro/Login.html');
         })
     }).then(() => {
         let uid = randomFixedInteger(9);
