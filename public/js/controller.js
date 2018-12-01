@@ -22,7 +22,7 @@ Controller.prototype._actions = {
                 model.setUpStreamSubscription();
             }).catch(err => {
                 console.log("Error: " + err);
-                $.get('/404notfound')
+                $.get('https://videochat-4711.herokuapp.com/404notfound')
             });
     }
 }
