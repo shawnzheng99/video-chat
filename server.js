@@ -11,7 +11,7 @@ app.get('/', (req, res) => {
     if (req.query.channel) {
         res.render('pages/index');
     } else {
-        res.render('pages/error');
+        res.render('pages/404notfound');
     }
 });
 
