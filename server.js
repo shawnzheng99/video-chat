@@ -48,7 +48,7 @@ app.get('/channelKey', (req, res) => {
                 if (childSnapshot.key == channel) {
                     resolve();
                 }else{
-                    reject('https://rankup.pro');
+                    reject('404channel');
                 };
             });
         })
