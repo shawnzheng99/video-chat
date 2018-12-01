@@ -11,9 +11,7 @@ app.get('/', (req, res) => {
     if (req.query.channel) {
         res.render('pages/index');
     } else {
-        if(res.statusCode === 404){
-            res.render('pages/404notfound');
-        }
+        res.render('pages/404notfound');
     }
 });
 
