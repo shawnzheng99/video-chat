@@ -41,17 +41,18 @@ app.get('/channelKey', (req, res) => {
     let channel = req.query.channel;
     new Promise((resolve, reject) => {
         if (!channel) {
-            res.redirect('https://rankup.pro/Login.html');
+            reject('404channel');
+        }else{
+            database.database().ref('/').once('value', snapshot => {
+                snapshot.forEach(childSnapshot => {
+                    if (childSnapshot.key == channel) {
+                        resolve();
+                    }else{
+                        reject('404channel');
+                    };
+                });
+            })
         }
-        database.database().ref('/').once('value', snapshot => {
-            snapshot.forEach(childSnapshot => {
-                if (childSnapshot.key == channel) {
-                    resolve();
-                }else{
-                    reject('404channel');
-                };
-            });
-        })
     }).then(() => {
         let uid = randomFixedInteger(9);
         let key = generateMediaChannelKey(appID, appCertificate, channel, ts, r, uid, expiredTs);
