@@ -22,6 +22,7 @@ Controller.prototype._actions = {
                 model.setUpStreamSubscription();
             }).catch(err => {
                 console.log("Error: " + err);
+                $.get('/404notfound')
             });
     }
 }

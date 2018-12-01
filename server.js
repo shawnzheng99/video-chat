@@ -15,6 +15,9 @@ app.get('/', (req, res) => {
     }
 });
 
+app.get('/404notfound',(req,res)=>{
+    res.render('pages/404notfound')
+})
 app.listen(port, () => {
     console.info('listening on %d', port);
 });
