@@ -41,7 +41,7 @@ app.get('/channelKey', (req, res) => {
     let channel = req.query.channel;
     new Promise((resolve, reject) => {
         if (!channel) {
-            reject('404channel');
+            res.sendStatus(404);
         }else{
             database.database().ref('/').once('value', snapshot => {
                 snapshot.forEach(childSnapshot => {
@@ -61,9 +61,10 @@ app.get('/channelKey', (req, res) => {
             uid: uid
         });
     }).catch(err => {
-        res.json({
-            Error: err
-        });
+        // res.json({
+        //     Error: err
+        // });
+        res.sendStatus(404);
     });
 });
 
