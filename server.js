@@ -77,7 +77,18 @@ app.post('/generateLink', (req, res) => {
                         .toString(36)
                         .slice(2) + Date.now();
         //database.database().ref('/' + roomid).set('SAMPLE_HOST_ID');
-        database.database().ref('/' + roomid).set(Date.now());
+        database.database().ref('/' + roomid).set(Date.now())
+        .then(()=>{
+            database.database().ref('/').once('value', snapshot => {
+                snapshot.forEach(childSnapshot => {
+                    if ((Date.now() - childSnapshot.val) >= 1) {
+                        database.database().ref('/' + childSnapshot.key).remove();
+                    }else{
+                        //reject('404channel');
+                    };
+                });
+            })
+        })
 
         res.json({
             url: 'https://videochat-4711.herokuapp.com/?channel=' + roomid
