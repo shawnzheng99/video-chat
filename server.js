@@ -89,6 +89,19 @@ app.post('/generateLink', (req, res) => {
     }
 });
 
+app.post('/endCall',(req, res, next) => {
+    if (req.headers['token'] === config.video_token) {
+        let room_id = req.body.roomId;
+        database.database().ref('/' + room_id).remove((err) => {
+            err ? console.log('remove room err', err) : res.json({ removeRoom: ojbk });
+        });
+    } else {
+        res.json({
+            error: 'Access Denied, No Token Found'
+        });
+    }
+})
+
 app.listen(port, () => {
     console.info('listening on %d', port);
 });
