@@ -81,7 +81,7 @@ app.post('/generateLink', (req, res) => {
         .then(()=>{
             database.database().ref('/').once('value', snapshot => {
                 snapshot.forEach(childSnapshot => {
-                    if ((Date.now() - childSnapshot.val()) >= 86400) {
+                    if ((Date.now() - childSnapshot.val()) >= 86400000) {
                         console.log("key:",childSnapshot.key,"val:",childSnapshot.val());
                         database.database().ref('/' +childSnapshot.key).remove();
                     }
