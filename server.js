@@ -81,9 +81,9 @@ app.post('/generateLink', (req, res) => {
         .then(()=>{
             database.database().ref('/').once('value', snapshot => {
                 snapshot.forEach(childSnapshot => {
-                    console.log(childSnapshot.key,childSnapshot.val)
+                    console.log("key:",childSnapshot.key,"val:",childSnapshot.val())
                     if ((Date.now() - childSnapshot.val()) >= 1) {
-                        database.database().child(childSnapshot.key).remove();
+                        database.database().ref('/' +childSnapshot.key).remove();
                     }else{
                         //reject('404channel');
                     };
