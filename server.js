@@ -92,9 +92,7 @@ app.post('/generateLink', (req, res) => {
 app.post('/endCall',(req, res) => {
     if (req.headers['token'] === config.video_token) {
         let room_id = req.body.roomId;
-        database.database().ref('/' + room_id).remove((err) => {
-            err ? res.json({error: err}) : res.json({ removeRoom: ojbk });
-        });
+        database.database().ref('/' + room_id).remove();
     } else {
         res.json({
             error: 'Access Denied, No Token Found'
