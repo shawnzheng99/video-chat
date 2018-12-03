@@ -22,7 +22,9 @@ Controller.prototype._actions = {
                 model.setUpStreamSubscription();
             }).catch(err => {
                 console.log("Error: " + err);
-                window.location.replace('https://videochat-4711.herokuapp.com')
+                if(err === "404channel"){
+                    window.location.replace('https://videochat-4711.herokuapp.com')
+                }
             });
     }
 }
