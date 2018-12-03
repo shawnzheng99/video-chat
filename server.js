@@ -92,8 +92,9 @@ app.post('/generateLink', (req, res) => {
 app.post('/endCall',(req, res, next) => {
     if (req.headers['token'] === config.video_token) {
         let room_id = req.body.roomId;
+        let thatRes = res;
         database.database().ref('/' + room_id).remove((err) => {
-            err ? console.log('remove room err', err) : res.json({ removeRoom: ojbk });
+            err ? console.log('remove room err', err) : thatRes.json({ removeRoom: ojbk });
         });
     } else {
         res.json({
