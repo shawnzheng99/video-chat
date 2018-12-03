@@ -73,10 +73,13 @@ app.post('/generateLink', (req, res) => {
     //let channel = decode(token).channel
     //let username = req.body.username;
     if(req.headers['token'] === config.video_token){
-        let channel = '1000';
-        database.database().ref('/' + channel).set('SAMPLE_HOST_ID');
+        //let channel = '1000';
+        let roomid = Math.random()
+                        .toString(36)
+                        .slice(2) + Date.now();
+        database.database().ref('/' + roomid).set('SAMPLE_HOST_ID');
         res.json({
-            url: 'https://videochat-4711.herokuapp.com/?channel=' + channel
+            url: 'https://videochat-4711.herokuapp.com/?channel=' + roomid
             //nameOfUser: username
         });
     }else{
