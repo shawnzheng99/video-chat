@@ -81,12 +81,10 @@ app.post('/generateLink', (req, res) => {
         .then(()=>{
             database.database().ref('/').once('value', snapshot => {
                 snapshot.forEach(childSnapshot => {
-                    console.log("key:",childSnapshot.key,"val:",childSnapshot.val())
-                    if ((Date.now() - childSnapshot.val()) >= 1) {
+                    if ((Date.now() - childSnapshot.val()) >= 86400) {
+                        console.log("key:",childSnapshot.key,"val:",childSnapshot.val());
                         database.database().ref('/' +childSnapshot.key).remove();
-                    }else{
-                        //reject('404channel');
-                    };
+                    }
                 });
             })
         })
