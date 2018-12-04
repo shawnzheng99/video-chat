@@ -49,10 +49,9 @@ app.get('/channelKey', (req, res) => {
                     console.log(childSnapshot.key,channel)
                     if (childSnapshot.key == channel) {
                         resolve();
-                    }else{
-                        console.log("== channel")
-                        reject('404channel');
-                    };
+                    }
+                    console.log("== channel")
+                    reject('404channel');
                 });
             })
         }
