@@ -46,6 +46,7 @@ app.get('/channelKey', (req, res) => {
         }else{
             database.database().ref('/').once('value', snapshot => {
                 snapshot.forEach(childSnapshot => {
+                    console.log(childSnapshot.key)
                     if (childSnapshot.key == channel) {
                         resolve();
                     }else{
