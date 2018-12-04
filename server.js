@@ -51,13 +51,13 @@ app.get('/channelKey', (req, res) => {
                     if (childSnapshot.key == channel) {
                         video = true;
                     }
-                    if(video){
-                        resolve();
-                    }else{
-                        console.log("== channel")
-                        reject('404channel');
-                    }
                 });
+                if(video){
+                    resolve();
+                }else{
+                    console.log("== channel")
+                    reject('404channel');
+                }
             })
         }
     }).then(() => {
