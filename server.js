@@ -44,12 +44,14 @@ app.get('/channelKey', (req, res) => {
             console.log("!channel")
             reject('404channel');
         }else{
-            if(database.database().ref('/' +channel).exists()){
-                resolve();
-            }else{
-                console.log("== channel");
-                reject('404channel');
-            }
+            database.database().ref('/'+channel).once('value', snapshot => {
+                if(snapshot.exits()){
+                    resolve()
+                }else{
+                    console.log("== channel")
+                    reject('404channel');  
+                }
+            })
             // database.database().ref('/').once('value', snapshot => {
             //     snapshot.forEach(childSnapshot => {
             //         console.log(childSnapshot.key,channel)
