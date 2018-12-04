@@ -44,16 +44,22 @@ app.get('/channelKey', (req, res) => {
             console.log("!channel")
             reject('404channel');
         }else{
-            database.database().ref('/').once('value', snapshot => {
-                snapshot.forEach(childSnapshot => {
-                    console.log(childSnapshot.key,channel)
-                    if (childSnapshot.key == channel) {
-                        resolve();
-                    }
-                    console.log("== channel")
-                    reject('404channel');
-                });
-            })
+            if(database.database().ref('/' +channel).exists()){
+                resolve();
+            }else{
+                console.log("== channel");
+                reject('404channel');
+            }
+            // database.database().ref('/').once('value', snapshot => {
+            //     snapshot.forEach(childSnapshot => {
+            //         console.log(childSnapshot.key,channel)
+            //         if (childSnapshot.key == channel) {
+            //             resolve();
+            //         }
+            //         console.log("== channel")
+            //         reject('404channel');
+            //     });
+            // })
         }
     }).then(() => {
         let uid = randomFixedInteger(9);
