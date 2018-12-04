@@ -41,6 +41,7 @@ app.get('/channelKey', (req, res) => {
     let channel = req.query.channel;
     new Promise((resolve, reject) => {
         if (!channel) {
+            console.log("!channel")
             reject('404channel');
         }else{
             database.database().ref('/').once('value', snapshot => {
@@ -48,6 +49,7 @@ app.get('/channelKey', (req, res) => {
                     if (childSnapshot.key == channel) {
                         resolve();
                     }else{
+                        console.log("== channel")
                         reject('404channel');
                     };
                 });
